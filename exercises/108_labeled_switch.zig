@@ -64,14 +64,15 @@ pub fn main() void {
     // Oh no, your pull request keeps being rejected,
     // how would you fix it?
     pr: switch (PullRequestState.Draft) {
-        PullRequestState.Draft => continue :pr PullRequestState.InReview,
-        PullRequestState.InReview => continue :pr PullRequestState.Rejected,
-        PullRequestState.Approved => continue :pr PullRequestState.Merged,
-        PullRequestState.Rejected => {
+        .Draft => continue :pr .InReview,
+        .InReview => continue :pr .Rejected,
+        .Approved => continue :pr .Merged,
+        .Rejected => {
             std.debug.print("The pull request has been rejected.\n", .{});
             return;
         },
-        PullRequestState.Merged => break, // Would you know where to break to?
+        // Doesn't work and I have no idea how to use this feature, it's sparsely documented!
+        .Merged => break :pr .Draft, // Would you know where to break to?
     }
     std.debug.print("The pull request has been merged.\n", .{});
 }
